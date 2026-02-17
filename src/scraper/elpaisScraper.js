@@ -215,11 +215,11 @@ async function extractContent(driver) {
             }
         }
 
-        return "⚠️ No meaningful textual content detected";
+        return "No meaningful textual content detected";
 
     } catch (error) {
         logger.warn(`Content extraction issue: ${error.message}`);
-        return "⚠️ Content extraction failed";
+        return "Content extraction failed";
     }
 }
 
