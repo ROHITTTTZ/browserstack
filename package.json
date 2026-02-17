@@ -15,5 +15,8 @@
     "fs-extra": "^11.3.3",
     "selenium-webdriver": "^4.40.0",
     "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "browserstack-node-sdk": "^1.49.9"
   }
 }

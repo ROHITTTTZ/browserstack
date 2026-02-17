@@ -6,6 +6,7 @@ node_modules/
 
 # Logs
 logs/
+log/
 
 # OS files
 .DS_Store
@@ -23,3 +24,6 @@ Thumbs.db
 # Windsurf / Cursor / other editors
 .windsurf/
 .cursor/
+
+#images output
+images/
