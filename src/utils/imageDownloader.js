@@ -1,17 +1,34 @@
+/**
+ * Image Downloader - Media Management
+ * Features:
+ * - URL validation
+ * - Directory creation
+ * - Error handling and logging
+ * - File system operations
+ */
+
 const axios = require('axios');
 const fs = require('fs-extra');
 const path = require('path');
 const logger = require('./logger');
+const Validation = require('./validation');
 
+/**
+ * Downloads and saves image from URL to local file system
+ * @param {string} imageUrl - URL of image to download
+ * @param {string} filename - Local filename for saved image
+ * @returns {boolean} Success status of download operation
+ */
 async function downloadImage(imageUrl, fileName) {
   try {
-    if (!imageUrl) {
-      logger.warn("No image URL provided");
+    // Validate URL
+    const urlValidation = Validation.validateUrl(imageUrl);
+    if (!urlValidation.isValid) {
+      logger.warn(`Invalid image URL: ${urlValidation.error}`);
       return;
     }
 
     const filePath = path.join('images', fileName);
-
     logger.info(`Downloading image → ${fileName}`);
 
     const response = await axios({

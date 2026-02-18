@@ -1,3 +1,10 @@
+/**
+ * BrowserStack Configuration - Cross-Browser Testing Setup
+ * Defines 5 parallel test sessions covering:
+ * - Desktop browsers (Chrome, Firefox, Safari)
+ * - Mobile devices (Samsung Galaxy, iPhone)
+ * - Multiple operating systems (Windows, macOS, Android, iOS)
+ */
 module.exports = {
     capabilitiesList: [
         {

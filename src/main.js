@@ -1,23 +1,40 @@
+/**
+ * EL PAÍS Opinion Scraper - Professional Web Scraping Solution
+ * Features:
+ * - Parallel BrowserStack execution across 5 browsers
+ * - Spanish article scraping with English translation  
+ * - Image downloading and word frequency analysis
+ * - Rate limiting and error handling
+ */
+ 
 const { Builder } = require('selenium-webdriver');
 const logger = require('./utils/logger');
 const scraper = require('./scraper/elpaisScraper');
 const translator = require('./services/translateService');
 const wordAnalyzer = require('./utils/wordAnalyzer');
 const { capabilitiesList } = require('../config/browserCapabilities'); 
+const Validation = require('./utils/validation');
 
 require('dotenv').config();
-const requiredEnvVars = ['BROWSERSTACK_USERNAME', 'BROWSERSTACK_ACCESS_KEY', 'RAPIDAPI_KEY'];
-requiredEnvVars.forEach(envVar => {
-    if (!process.env[envVar]) {
-        throw new Error(`Missing required environment variable: ${envVar}`);
-    }
-});
+
+// Validate required environment variables before execution
+const validation = Validation.validateEnvironment();
+if (!validation.isValid) {
+    throw new Error(`Environment validation failed: ${validation.errors.join(', ')}`);
+}
 console.log('Environment variables validated');
 
+/**
+ * Executes complete scraping workflow for a single browser session
+ * @param {Object} capabilities - BrowserStack browser configuration
+ * @returns {Object} Session results with articles and translations
+ */
 async function runTest(capabilities) {
     let driver;
     try {
         logger.info(`Starting test → ${capabilities['bstack:options'].sessionName}`);
+        
+        // Configure BrowserStack with credentials
         const caps = {
             ...capabilities,
             'bstack:options': {
@@ -27,11 +44,13 @@ async function runTest(capabilities) {
             }
         };
 
+        // Initialize WebDriver instance
         driver = await new Builder()
             .usingServer('https://hub.browserstack.com/wd/hub')
             .withCapabilities(caps)
             .build();
 
+        // Execute scraping pipeline
         await scraper.openHomePage(driver);
         await scraper.handleCookiePopup(driver);
         await scraper.navigateToOpinion(driver);
@@ -40,6 +59,7 @@ async function runTest(capabilities) {
         const report = [];
         const translatedTitles = [];
 
+        // Loop through each article URL and process it
         for (let i = 0; i < articleUrls.length; i++) {
             const details = await scraper.extractArticleDetails(driver, articleUrls[i], i);
             if (!details) continue;
@@ -95,9 +115,15 @@ async function runTest(capabilities) {
     }
 }
 
+/**
+ * Orchestrates parallel execution across all configured browsers
+ * Uses Promise.all for true concurrent processing
+ */
 (async function parallelRunner() {
     try {
         logger.info("Running 5 parallel BrowserStack sessions...");
+
+        // Execute all browser sessions concurrently for maximum efficiency
         await Promise.all(
             capabilitiesList.map(caps => runTest(caps))
         );
