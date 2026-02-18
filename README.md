@@ -161,6 +161,22 @@ Mobile execution was initiated but not fully functional.
 
 ---
 
+## 🎥 Demo Video
+
+A short demonstration showcasing:
+
+✔ Automated article extraction  
+✔ Spanish → English title translation  
+✔ Parallel BrowserStack execution  
+
+<p align="center">
+  <a href="https://drive.google.com/file/d/1-IyMGtw-q3h1wH8a42BzVvvy0o-45wOb/view">
+    <img src="https://img.shields.io/badge/▶%20Watch-Demo_Video-red?style=for-the-badge&logo=google-drive&logoColor=white"/>
+  </a>
+</p>
+
+---
+
 ## 🛠 Troubleshooting
 
 **Issue:** Cookie popup blocking navigation  
@@ -241,3 +257,4 @@ node src/main.js
 🎓 Final Year Computer Engineering Student  
 🏫 Pillai College of Engineering  
 🔗 LinkedIn: [linkedin.com/in/rohith-pradeep/](https://www.linkedin.com/in/rohith-pradeep/)
+
