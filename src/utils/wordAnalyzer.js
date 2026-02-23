@@ -34,7 +34,6 @@ function analyzeRepeatedWords(titles) {
         .toLowerCase()
         .replace(/[^\w\s]/g, '')  
         .split(/\s+/);
-
       words.forEach(word => {
         if (!word) return;
 

@@ -71,6 +71,29 @@ class Validation {
     }
 
     /**
+ * Validates array input
+ * @param {Array} array - Array to validate
+ * @param {string} context - Context for validation
+ * @returns {Object} Validation result with isValid and errors
+ */
+    static validateArray(array, context = 'array') {
+        const result = { isValid: false, error: null };
+
+        if (!Array.isArray(array)) {
+            result.error = `${context} must be an array`;
+            return result;
+        }
+
+        if (array.length === 0) {
+            result.error = `${context} cannot be empty`;
+            return result;
+        }
+
+        result.isValid = true;
+        return result;
+    }
+
+    /**
      * Validates article title
      * @param {*} title - Title to validate
      * @returns {Object} Validation result with isValid and sanitized value
@@ -112,12 +135,12 @@ class Validation {
      */
     static validateUrl(url) {
         const result = { isValid: false, error: null };
-        
+
         if (!url || typeof url !== 'string') {
             result.error = 'URL must be a non-empty string';
             return result;
         }
-        
+
         try {
             const urlObj = new URL(url);
             if (!['http:', 'https:'].includes(urlObj.protocol)) {
